@@ -34,38 +34,41 @@ class DataBase
         return mysqli_real_escape_string($this->connect, stripslashes(htmlspecialchars($data)));
     }
 
-    function logIn($table, $email, $password)
-    {
-        $email = $this->prepareData($email);
-        $password = $this->prepareData($password);
-        $this->sql = "select * from " . $table . " where email = '" . $email . "'";
-        $result = mysqli_query($this->connect, $this->sql);
-        $row = mysqli_fetch_assoc($result);
-        if (mysqli_num_rows($result) != 0) {
-            $dbemail = $row['email'];
-            $dbpassword = $row['password'];
-            if ($dbemail == $email && $dbpassword == $password) {
-                $login = true;
-            } else $login = false;
-        } else $login = false;
-
-        return $login;
-    }
-
-    function signUp($table, $name, $usertype, $secondname, $email, $password)
-    {
-        $name = $this->prepareData($name);
-        $secondname = $this->prepareData($secondname);
-        $password = $this->prepareData($password);
-        $email = $this->prepareData($email);
-        $this->sql =
-            "INSERT INTO " . $table . " (name, User_type_id, second_name, password, email) VALUES ('" . $name . "','" . $usertype . "','" . $secondname . "','" . $password . "','" . $email . "')";
-        if (mysqli_query($this->connect, $this->sql)) {
-            return true;
-        } else return false;
-    }
-
     #region User functions
+
+        function logIn($table, $email, $password)
+        {
+            $email = $this->prepareData($email);
+            $password = $this->prepareData($password);
+            $this->sql = "select * from " . $table . " where email = '" . $email . "'";
+            $result = mysqli_query($this->connect, $this->sql);
+            $row = mysqli_fetch_assoc($result);
+            if (mysqli_num_rows($result) != 0) {
+                $dbemail = $row['email'];
+                $dbpassword = $row['password'];
+                if ($dbemail == $email && $dbpassword == $password) {
+                    $login = true;
+                } else $login = false;
+            } else $login = false;
+
+            return $login;
+        }
+
+        function signUp($table, $name, $usertype, $secondname, $email, $password)
+        {
+            $name = $this->prepareData($name);
+            $secondname = $this->prepareData($secondname);
+            $password = $this->prepareData($password);
+            $email = $this->prepareData($email);
+            $usertype = $this->prepareData($usertype);
+
+            $this->sql =
+                "INSERT INTO " . $table . " (name, User_type_id, second_name, password, email) VALUES ('" . $name . "'," . $usertype . ",'" . $secondname . "','" . $password . "','" . $email . "')";
+            if (mysqli_query($this->connect, $this->sql)) {
+                return true;
+            } else return false;
+        }
+
         function getUser($table, $email)
         {
             $email = $this->prepareData($email);
@@ -86,6 +89,30 @@ class DataBase
             $result = mysqli_query($this->connect, $this->sql);
             return $result;
         }
+    #endregion
+
+    #region Restaurant functions
+
+        function newRestaurant($name, $desc, $inicio, $cierre, $precio, $categoria, $usuario)
+        {
+            $table = "restaurantes";
+
+            $name = $this->prepareData($name);
+            $desc = $this->prepareData($desc);
+            $inicio = $this->prepareData($inicio);
+            $cierre = $this->prepareData($cierre);
+            $precio = $this->prepareData($precio);
+            $categoria = $this->prepareData($categoria);
+            $usuario = $this->prepareData($usuario);
+
+            $this->sql =
+                "INSERT INTO " . $table . "(nombre, descripcion, fecha_apertura, fecha_cierre, precio, categoria, usuario_creador) VALUES ('" . $name . "','" . $desc . "','" . $inicio . "','" . $cierre . "'," . $precio . ",'" . $categoria . "'," . $usuario . ")";
+            if (mysqli_query($this->connect, $this->sql)) {
+                return true;
+            } else return false;
+        }
+
+
     #endregion
 
 }
