@@ -112,6 +112,16 @@ class DataBase
             } else return false;
         }
 
+        function getAllRestaurants($table)
+        {
+            $this->sql = "select * from " . $table . " order by restaurant_id";
+            $result = mysqli_query($this->connect, $this->sql);
+            $row = mysqli_fetch_assoc($result);
+            if (mysqli_num_rows($result) != 0) {
+                return $row;
+            } else return $row;
+        }
+
 
     #endregion
 
