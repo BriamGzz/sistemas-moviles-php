@@ -3,8 +3,8 @@ require "DataBase.php";
 $db = new DataBase();
 
 if ($db->dbConnect()) {
-    $restaurants = $db->getAllRestaurants($_POST['table']);
-    echo json_encode($restaurants);
+    $rating = $db->getMyRating($_POST['restaurant_id'], $_POST['usuario_id']);
+    echo json_encode($rating);
 } else echo "Error: Database connection";
 
 ?>
