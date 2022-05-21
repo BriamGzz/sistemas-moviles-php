@@ -47,11 +47,10 @@ class DataBase
                 $dbemail = $row['email'];
                 $dbpassword = $row['password'];
                 if ($dbemail == $email && $dbpassword == $password) {
-                    $login = true;
-                } else $login = false;
-            } else $login = false;
-
-            return $login;
+                    return $row;
+                } else return false;
+            } else return false;
+            return false;
         }
 
         function signUp($table, $name, $usertype, $secondname, $email, $password)
